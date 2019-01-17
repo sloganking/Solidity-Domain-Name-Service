@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.0;
 contract SimpleBank {
 
     //
@@ -8,12 +8,14 @@ contract SimpleBank {
     address public owner;
 
     mapping (address => string) private domainNames;
+    mapping (string => bool) private claimed;
+    mapping (string => string) private ipAddresses;
 
     //
     // Events - publicize actions to external listeners
     //
 
-    event NameAcquired(address accountAddress, string acquiredString);
+    event NewNameClaimed(address accountAddress, string acquiredString);
 
     //
     // Functions
@@ -24,4 +26,9 @@ contract SimpleBank {
         owner = msg.sender;
     }
 
+    function claimNewName(string memory _name) public {
+        require(claimed[_name] != true, "Domain name has already been claimed");
+        domainNames[msg.sender] = _name;
+        emit NewNameClaimed(msg.sender, _name);
+    }
 }
