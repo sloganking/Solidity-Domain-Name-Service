@@ -7,15 +7,21 @@ contract DNS {
 
     address public owner;
 
-    mapping (address => string) private domainNames;
     mapping (string => bool) private claimed;
-    mapping (string => string) private ipAddresses;
+    mapping (string => DomainName ) domainNames;
+
+    struct DomainName {
+        address owner;
+        string name;
+        string IPAddress;
+    }
 
     //
     // Events - publicize actions to external listeners
     //
 
     event NewNameClaimed(address accountAddress, string acquiredString);
+    event NamesIPAddressChanged(string name, string IPAddress);
 
     //
     // Functions
@@ -28,7 +34,17 @@ contract DNS {
 
     function claimNewName(string memory _name) public {
         require(claimed[_name] != true, "Domain name has already been claimed");
-        domainNames[msg.sender] = _name;
+        claimed[_name] = true;
+        domainNames[_name].name = _name;
+        domainNames[_name].owner = msg.sender;
         emit NewNameClaimed(msg.sender, _name);
+    }
+
+    function setNamesIPAddress(string memory _name, string memory _address) public {
+        require(claimed[_name] == true, "Domain Name has not yet been claimed");
+        require(domainNames[_name].owner == msg.sender, "You are not this name's owner");
+        //require(keccak256(domainNames[_name].IPAddress) != keccak256(_address), "This name already has that IPAddress");
+        domainNames[_name].IPAddress = _address;
+        emit NamesIPAddressChanged(_name, _address);
     }
 }
