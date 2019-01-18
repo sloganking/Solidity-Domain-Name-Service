@@ -28,11 +28,14 @@ contract DNS {
     //
 
     constructor() public {
-        /* Set the owner to the creator of this contract */
+        /** @dev Set the owner to the creator of this contract */
         owner = msg.sender;
     }
 
     function claimNewName(string memory _name) public {
+    /** @dev Gives msg.sender ownership of Domain Name if it's unclaimed
+        @param _name name of the domain which is attempting to be claimed
+     */
         require(claimed[_name] != true, "Domain name has already been claimed");
         claimed[_name] = true;
         domainNames[_name].name = _name;
@@ -41,6 +44,10 @@ contract DNS {
     }
 
     function setNamesIPAddress(string memory _name, string memory _address) public {
+    /** @dev Sets name's corresponding IP address.
+        @param _name Name which is having it's corresponding IP address set.
+        @param _address IP Address which will be stored under specified name.
+     */
         require(claimed[_name] == true, "Domain Name has not yet been claimed");
         require(domainNames[_name].owner == msg.sender, "You are not this name's owner");
         //require(keccak256(domainNames[_name].IPAddress) != keccak256(_address), "This name already has that IPAddress");
