@@ -35,7 +35,9 @@ contract DNS {
     /** @dev Gives msg.sender ownership of Domain Name if it's unclaimed
         @param _name name of the domain which is attempting to be claimed
      */
-    function claimNewName(string memory _name) public {
+    function claimNewName(string memory _name)
+        public
+    {
         require(claimed[_name] != true, "Domain name has already been claimed");
         claimed[_name] = true;
         domainNames[_name].name = _name;
@@ -47,11 +49,22 @@ contract DNS {
         @param _name Name which is having it's corresponding IP address set.
         @param _address IP Address which will be stored under specified name.
      */
-    function setNamesIPAddress(string memory _name, string memory _address) public {
+    function setNamesIPAddress(string memory _name, string memory _address)
+        public
+    {
         require(claimed[_name] == true, "Domain Name has not yet been claimed");
         require(domainNames[_name].owner == msg.sender, "You are not this name's owner");
         //require(keccak256(domainNames[_name].IPAddress) != keccak256(_address), "This name already has that IPAddress");
         domainNames[_name].IPAddress = _address;
         emit NamesIPAddressChanged(_name, _address);
+    }
+
+    /** @dev Returns list of all owned Names */
+    function listNamesOwnedBy()
+        private
+        view
+    {
+        string[] owned;
+        for(uint i = 0; i < )
     }
 }
