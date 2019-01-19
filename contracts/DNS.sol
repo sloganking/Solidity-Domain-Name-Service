@@ -7,9 +7,10 @@ contract DNS {
 
     address public owner;
 
-    mapping (string => bool) private claimed;
-    mapping (string => DomainName ) domainNames;
-    mapping (uint => string) namesFromNumber;
+    mapping (address => uint) ownerNameCount;   //number of names in existance
+    mapping (uint => string) numberToName;   //(used to sort through all names)
+    mapping (string => DomainName) domainNames; //gets name items from name
+    mapping (string => bool) private claimed;   //stors wether a name has been claimed yet
 
     struct DomainName {
         address owner;
@@ -43,11 +44,12 @@ contract DNS {
         public
     {
         require(claimed[_name] != true, "Domain name has already been claimed");
-        namesFromNumber[numberOfClaimedNames] = _name;
+        numberToName[numberOfClaimedNames] = _name;
         numberOfClaimedNames++;
         claimed[_name] = true;
         domainNames[_name].name = _name;
         domainNames[_name].owner = msg.sender;
+        ownerNameCount[msg.sender]++;   
         emit NewNameClaimed(msg.sender, _name);
     }
 
@@ -65,16 +67,18 @@ contract DNS {
         emit NamesIPAddressChanged(_name, _address);
     }
 
-    /** @dev Returns list of all owned Names */
+    /** @dev Returns list of uints, corresponding to all of msg.sender's owned Names */
     function listNamesOwnedBy()
-        private
+        public
         view
-        returns(string[] storage listOfOwned)
+        returns(uint[] memory)
     {
-        string[] owned;
+        uint[] memory owned = new uint[](ownerNameCount[msg.sender]);
+        uint count = 0;
         for(uint i = 0; i < numberOfClaimedNames; i++){
-            if(domainNames[namesFromNumber[i]].owner == msg.sender){
-                owned.push(domainNames[namesFromNumber[i]].name);
+            if(domainNames[numberToName[i]].owner == msg.sender){
+                owned[count] = i;
+                count++;
             }
         }
         return owned;
