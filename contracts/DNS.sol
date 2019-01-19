@@ -9,12 +9,15 @@ contract DNS {
 
     mapping (string => bool) private claimed;
     mapping (string => DomainName ) domainNames;
+    mapping (uint => string) namesFromNumber;
 
     struct DomainName {
         address owner;
         string name;
         string IPAddress;
     }
+
+    uint numberOfClaimedNames;
 
     //
     // Events - publicize actions to external listeners
@@ -30,6 +33,7 @@ contract DNS {
     /** @dev Set the owner to the creator of this contract */
     constructor() public {
         owner = msg.sender;
+        numberOfClaimedNames = 0;
     }
 
     /** @dev Gives msg.sender ownership of Domain Name if it's unclaimed
@@ -39,6 +43,8 @@ contract DNS {
         public
     {
         require(claimed[_name] != true, "Domain name has already been claimed");
+        namesFromNumber[numberOfClaimedNames] = _name;
+        numberOfClaimedNames++;
         claimed[_name] = true;
         domainNames[_name].name = _name;
         domainNames[_name].owner = msg.sender;
@@ -63,8 +69,14 @@ contract DNS {
     function listNamesOwnedBy()
         private
         view
+        returns(string[] storage listOfOwned)
     {
         string[] owned;
-        for(uint i = 0; i < )
+        for(uint i = 0; i < numberOfClaimedNames; i++){
+            if(domainNames[namesFromNumber[i]].owner == msg.sender){
+                owned.push(domainNames[namesFromNumber[i]].name);
+            }
+        }
+        return owned;
     }
 }
