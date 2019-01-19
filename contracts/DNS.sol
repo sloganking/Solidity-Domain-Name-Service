@@ -62,14 +62,13 @@ contract DNS {
     {
         require(claimed[_name] == true, "Domain Name has not yet been claimed");
         require(domainNames[_name].owner == msg.sender, "You are not this name's owner");
-        //require(keccak256(domainNames[_name].IPAddress) != keccak256(_address), "This name already has that IPAddress");
         domainNames[_name].IPAddress = _address;
         emit NamesIPAddressChanged(_name, _address);
     }
 
     /** @dev Returns list of uints, corresponding to all of msg.sender's owned Names */
     function listNamesOwnedBy()
-        public
+        external
         view
         returns(uint[] memory)
     {
@@ -82,5 +81,13 @@ contract DNS {
             }
         }
         return owned;
+    }
+
+    function getNameByID(uint ID)
+        external
+        view
+        returns(string memory)
+    {
+        return numberToName[ID];
     }
 }
