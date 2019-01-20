@@ -62,9 +62,9 @@ contract DNS {
         public
         isClaimed(_name)
     {
+        claimed[_name] = true;
         numberToName[numberOfClaimedNames] = _name;
         numberOfClaimedNames++;
-        claimed[_name] = true;
         domainNames[_name].name = _name;
         domainNames[_name].owner = msg.sender;
         ownerNameCount[msg.sender]++;   
