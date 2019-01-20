@@ -28,6 +28,23 @@ contract DNS {
     event NamesIPAddressChanged(string name, string IPAddress);
     event OwnershipTransfered(string name, address newOwner);
 
+    // 
+    // Modifieers
+    // 
+
+    modifier ownsName(string memory _name){
+        require(domainNames[_name].owner == msg.sender, "You are not this name's owner");
+        _;
+    }
+    modifier isClaimed(string memory _name){
+        require(claimed[_name] != true, "Domain name has already been claimed");
+        _;
+    }
+    modifier idExists(uint _id){
+        require(_id < numberOfClaimedNames, "Requested ID is higher than current number of claimed names");
+        _;
+    }
+
     //
     // Functions
     //
@@ -43,8 +60,8 @@ contract DNS {
      */
     function claimNewName(string memory _name)
         public
+        isClaimed(_name)
     {
-        require(claimed[_name] != true, "Domain name has already been claimed");
         numberToName[numberOfClaimedNames] = _name;
         numberOfClaimedNames++;
         claimed[_name] = true;
@@ -60,9 +77,9 @@ contract DNS {
      */
     function setNamesIPAddress(string memory _name, string memory _address)
         public
+        isClaimed(_name)
+        ownsName(_name)
     {
-        require(claimed[_name] == true, "Domain Name has not yet been claimed");
-        require(domainNames[_name].owner == msg.sender, "You are not this name's owner");
         domainNames[_name].IPAddress = _address;
         emit NamesIPAddressChanged(_name, _address);
     }
@@ -87,21 +104,19 @@ contract DNS {
     function getNameByID(uint ID)
         external
         view
+        idExists(ID)
         returns(string memory)
     {
-        require(ID < numberOfClaimedNames, "Requested ID is higher than current number of claimed names");
         return numberToName[ID];
     }
 
     function transferOwnershipForFree(string memory _name, address _receiver)
         public
+        ownsName(_name)
     {
-        require(domainNames[_name].owner == msg.sender, "You are not this name's owner");
         domainNames[_name].owner = _receiver;
-
         ownerNameCount[msg.sender] = ownerNameCount[msg.sender]--;
         ownerNameCount[_receiver] = ownerNameCount[_receiver]++;
-
         emit OwnershipTransfered(_name, _receiver);
     }
 }
