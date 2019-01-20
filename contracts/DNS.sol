@@ -88,6 +88,7 @@ contract DNS {
         view
         returns(string memory)
     {
+        require(ID < numberOfClaimedNames, "Requested ID is higher than current number of claimed names");
         return numberToName[ID];
     }
 }
