@@ -26,6 +26,7 @@ contract DNS {
 
     event NewNameClaimed(address accountAddress, string acquiredString);
     event NamesIPAddressChanged(string name, string IPAddress);
+    event OwnershipTransfered(string name, address newOwner);
 
     //
     // Functions
@@ -90,5 +91,17 @@ contract DNS {
     {
         require(ID < numberOfClaimedNames, "Requested ID is higher than current number of claimed names");
         return numberToName[ID];
+    }
+
+    function transferOwnershipForFree(string memory _name, address _receiver)
+        public
+    {
+        require(domainNames[_name].owner == msg.sender, "You are not this name's owner");
+        domainNames[_name].owner = _receiver;
+
+        ownerNameCount[msg.sender] = ownerNameCount[msg.sender]--;
+        ownerNameCount[_receiver] = ownerNameCount[_receiver]++;
+
+        emit OwnershipTransfered(_name, _receiver);
     }
 }
