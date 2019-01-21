@@ -101,6 +101,9 @@ contract DNS {
         return owned;
     }
 
+    /** @dev returns the name of a corresponding ID
+        @param ID uint ID which corresponds to a name
+    */
     function getNameByID(uint ID)
         external
         view
@@ -110,6 +113,10 @@ contract DNS {
         return numberToName[ID];
     }
 
+    /** @dev lets msg.sender transfer ownership of one of their names to another address
+        @param _name name of the address you are transfering ownership of
+        @param _receiver address you are transfering ownership of name to
+    */
     function transferOwnershipForFree(string memory _name, address _receiver)
         public
         ownsName(_name)
