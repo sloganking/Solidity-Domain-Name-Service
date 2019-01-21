@@ -36,8 +36,12 @@ contract DNS {
         require(domainNames[_name].owner == msg.sender, "You are not this name's owner");
         _;
     }
-    modifier isClaimed(string memory _name){
+    modifier notClaimed(string memory _name){
         require(claimed[_name] != true, "Domain name has already been claimed");
+        _;
+    }
+    modifier isClaimed(string memory _name){
+        require(claimed[_name] == true, "Domain name not yet been claimed");
         _;
     }
     modifier idExists(uint _id){
@@ -60,7 +64,7 @@ contract DNS {
      */
     function claimNewName(string memory _name)
         public
-        isClaimed(_name)
+        notClaimed(_name)
     {
         claimed[_name] = true;
         numberToName[numberOfClaimedNames] = _name;
@@ -122,8 +126,8 @@ contract DNS {
         ownsName(_name)
     {
         domainNames[_name].owner = _receiver;
-        ownerNameCount[msg.sender] = ownerNameCount[msg.sender]--;
-        ownerNameCount[_receiver] = ownerNameCount[_receiver]++;
+        ownerNameCount[msg.sender] = ownerNameCount[msg.sender] - 1;
+        ownerNameCount[_receiver] = ownerNameCount[_receiver] + 1;
         emit OwnershipTransfered(_name, _receiver);
     }
 }
