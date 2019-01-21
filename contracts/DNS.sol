@@ -29,7 +29,7 @@ contract DNS {
     event OwnershipTransfered(string name, address newOwner);
 
     // 
-    // Modifieers
+    // Modifiers
     // 
 
     modifier ownsName(string memory _name){
@@ -45,7 +45,7 @@ contract DNS {
         _;
     }
     modifier idExists(uint _id){
-        require(_id < numberOfClaimedNames, "Requested ID is higher than current number of claimed names");
+        require(_id < numberOfClaimedNames, "Requested ID is higher than current number of claimed names, or less than 0");
         _;
     }
 
@@ -102,6 +102,7 @@ contract DNS {
                 count++;
             }
         }
+        require(count == ownerNameCount[msg.sender], "Internal Error: Number of names retrieved != known owned names");
         return owned;
     }
 
