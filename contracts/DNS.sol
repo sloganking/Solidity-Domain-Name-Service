@@ -53,13 +53,13 @@ contract DNS {
     // Functions
     //
 
-    /** @dev Set the owner to the creator of this contract */
+    /** @notice Set the owner to the creator of this contract */
     constructor() public {
         owner = msg.sender;
         numberOfClaimedNames = 0;
     }
 
-    /** @dev Gives msg.sender ownership of Domain Name if it's unclaimed
+    /** @notice Gives msg.sender ownership of Domain Name if it's unclaimed
         @param _name name of the domain which is attempting to be claimed
      */
     function claimNewName(string memory _name)
@@ -75,7 +75,7 @@ contract DNS {
         emit NewNameClaimed(msg.sender, _name);
     }
 
-    /** @dev Sets name's corresponding IP address.
+    /** @notice Sets name's corresponding IP address.
         @param _name Name which is having it's corresponding IP address set.
         @param _address IP Address which will be stored under specified name.
      */
@@ -88,7 +88,7 @@ contract DNS {
         emit NamesIPAddressChanged(_name, _address);
     }
 
-    /** @dev Returns list of uints, corresponding to all of msg.sender's owned Names */
+    /** @notice Returns list of uints, corresponding to all of msg.sender's owned Names */
     function listNamesOwnedBy()
         external
         view
@@ -106,19 +106,19 @@ contract DNS {
         return owned;
     }
 
-    /** @dev returns the name of a corresponding ID
-        @param ID uint ID which corresponds to a name
+    /** @notice returns the name of a corresponding ID
+        @param _id uint ID which corresponds to a name
     */
-    function getNameByID(uint ID)
+    function getNameByID(uint _id)
         external
         view
-        idExists(ID)
+        idExists(_id)
         returns(string memory)
     {
-        return numberToName[ID];
+        return numberToName[_id];
     }
 
-    /** @dev lets msg.sender transfer ownership of one of their names to another address
+    /** @notice lets msg.sender transfer ownership of one of their names to another address
         @param _name name of the address you are transfering ownership of
         @param _receiver address you are transfering ownership of name to
     */
