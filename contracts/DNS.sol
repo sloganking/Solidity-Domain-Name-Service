@@ -12,10 +12,14 @@ contract DNS {
     mapping (string => DomainName) domainNames; //gets name items from name
     mapping (string => bool) private claimed;   //stors wether a name has been claimed yet
 
+    enum OfferState {NotOffering, PrivateOffering, PublicOffering}
+
     struct DomainName {
         address owner;
         string name;
         string IPAddress;
+        OfferState offerState;
+        uint OfferPrice;
     }
 
     uint numberOfClaimedNames;
@@ -67,10 +71,11 @@ contract DNS {
         notClaimed(_name)
     {
         claimed[_name] = true;
-        numberToName[numberOfClaimedNames] = _name;
         numberOfClaimedNames++;
-        domainNames[_name].name = _name;
+        numberToName[numberOfClaimedNames] = _name;
         domainNames[_name].owner = msg.sender;
+        domainNames[_name].name = _name;
+        domainNames[_name].offerState = OfferState.NotOffering;
         ownerNameCount[msg.sender]++;   
         emit NewNameClaimed(msg.sender, _name);
     }
@@ -130,5 +135,44 @@ contract DNS {
         ownerNameCount[msg.sender] = ownerNameCount[msg.sender] - 1;
         ownerNameCount[_receiver] = ownerNameCount[_receiver] + 1;
         emit OwnershipTransfered(_name, _receiver);
+    }
+
+    /** @notice Sets name to NotOffered for sale
+        @param _name Name who's offerStatus is being changed
+    */
+    function makeNameNotOffered(string memory _name) public
+        isClaimed(_name)
+        ownsName(_name)
+    {
+        domainNames[_name].offerState = OfferState.NotOffering;  
+    }
+
+    /** @notice offers ownership of a name to specific address in exchange for specified amount of funds.
+        @param _name The Name who's ownership is being offered
+        @param _address The address who the name is being offered to
+        @param _eth The amount of Ether required for transfer of ownership
+    */
+    function makeNamePrivatlyOffered(string memory _name, address _address, uint _eth) public
+        isClaimed(_name)
+        ownsName(_name)
+    {
+        domainNames[_name].offerState = OfferState.NotOffering;     //assure no one can buy while contract changes price
+        domainNames[_name].OfferPrice = _eth;
+        domainNames[_name].offerState = OfferState.PrivateOffering;
+    }
+
+    function acceptPrivateOffer() public
+    {
+
+    }
+
+    function makeNamePubliclyOffered() public
+    {
+
+    }
+
+    function acceptPublicOffer() public
+    {
+
     }
 }
