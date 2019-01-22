@@ -72,7 +72,7 @@ contract DNS {
 
     modifier offerStateOfNameIs(string memory _name, OfferState _state)
     {
-        require(domainNames[_name].offerState == _state, "offerState of name is not the sate needed to preform this function");
+        require(domainNames[_name].offerState == _state, "offerState of name is not the state needed to preform this function");
         _;
     }
 
@@ -185,8 +185,9 @@ contract DNS {
         domainNames[_name].offerState = OfferState.PrivateOffering;
     }
 
-    /** @notice Pays required amount for offered name and transfer's ownership of name
+    /** @notice Receives required amount for offered name and transfer's ownership of name
         @param _name Name who's ownership is being transfered
+        @dev needs to send funds to seller
     */
     function acceptPrivateOffer(string memory _name) public payable
         offerStateOfNameIs(_name, OfferState.PrivateOffering)   //make sure OfferState of name is PriavateOffering
@@ -200,7 +201,10 @@ contract DNS {
         domainNames[_name].owner = msg.sender;
     }
 
-    /** @dev Not done */
+    /** @notice Offers name to the public for specified amount of ether
+        @param _name The Name who's ownership is being offered
+        @param _eth The amount of Ether required for transfer of ownership
+    */
     function makeNamePubliclyOffered(string memory _name, uint _eth) public
         isClaimed(_name)
         ownsName(_name)
@@ -210,9 +214,18 @@ contract DNS {
         domainNames[_name].offerState = OfferState.PublicOffering;
     }
 
-    /** @dev Not done */
-    function acceptPublicOffer() public
+    /** @notice receives requested funds for offered name and transferes ownership of name to msg.sender
+        @param _name Name who's ownership is being transfered
+        @dev needs to send funds to seller
+    */
+    function acceptPublicOffer(string memory _name) public payable
+        offerStateOfNameIs(_name, OfferState.PublicOffering)   //make sure OfferState of name is PublicOffering
+        paidEnough(domainNames[_name].offerPrice)
+        checkValue(_name)       //returns any extra funds
     {
-
+        domainNames[_name].offerState = OfferState.NotOffering;
+        ownerNameCount[domainNames[_name].owner]--;
+        ownerNameCount[msg.sender]++;
+        domainNames[_name].owner = msg.sender;
     }
 }
