@@ -19,7 +19,8 @@ contract DNS {
         string name;
         string IPAddress;
         OfferState offerState;
-        uint OfferPrice;
+        uint offerPrice;
+        address offerAddress;
     }
 
     uint numberOfClaimedNames;
@@ -50,6 +51,28 @@ contract DNS {
     }
     modifier idExists(uint _id){
         require(_id < numberOfClaimedNames, "Requested ID is higher than current number of claimed names, or less than 0");
+        _;
+    }
+
+    modifier paidEnough(uint _price) {require(msg.value >= _price,"Amount paid, not enough."); _;}
+
+    modifier checkValue(string memory _name) {
+        //refund them after pay for item (why it is before, _ checks for logic before func)
+        _;
+        uint _price = domainNames[_name].offerPrice;
+        uint amountToRefund = msg.value - _price;
+        msg.sender.transfer(amountToRefund);
+    }
+
+    modifier validReceiverOf(string memory _name)
+    {
+        require(domainNames[_name].offerAddress == msg.sender, "msg.sender is not the authorized receiver of this private offer.");
+        _;
+    }
+
+    modifier offerStateOfNameIs(string memory _name, OfferState _state)
+    {
+        require(domainNames[_name].offerState == _state, "offerState of name is not the sate needed to preform this function");
         _;
     }
 
@@ -157,20 +180,35 @@ contract DNS {
         ownsName(_name)
     {
         domainNames[_name].offerState = OfferState.NotOffering;     //assure no one can buy while contract changes price
-        domainNames[_name].OfferPrice = _eth;
+        domainNames[_name].offerPrice = _eth;
+        domainNames[_name].offerAddress = _address;
         domainNames[_name].offerState = OfferState.PrivateOffering;
     }
 
-    function acceptPrivateOffer() public
+    /** @notice Pays required amount for offered name and transfer's ownership of name
+        @param _name Name who's ownership is being transfered
+    */
+    function acceptPrivateOffer(string memory _name) public payable
+        offerStateOfNameIs(_name, OfferState.PrivateOffering)   //make sure OfferState of name is PriavateOffering
+        validReceiverOf(_name)
+        paidEnough(domainNames[_name].offerPrice)
+        checkValue(_name)       //returns any extra funds
     {
-
+        domainNames[_name].offerState = OfferState.NotOffering;
+        domainNames[_name].owner = msg.sender;
     }
 
-    function makeNamePubliclyOffered() public
+    /** @dev Not done */
+    function makeNamePubliclyOffered(string memory _name, uint _eth) public
+        isClaimed(_name)
+        ownsName(_name)
     {
-
+        domainNames[_name].offerState = OfferState.NotOffering;     //assure no one can buy while contract changes price
+        domainNames[_name].offerPrice = _eth;
+        domainNames[_name].offerState = OfferState.PublicOffering;
     }
 
+    /** @dev Not done */
     function acceptPublicOffer() public
     {
 
