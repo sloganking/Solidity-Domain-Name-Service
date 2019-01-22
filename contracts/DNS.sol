@@ -94,8 +94,8 @@ contract DNS {
         notClaimed(_name)
     {
         claimed[_name] = true;
-        numberOfClaimedNames++;
-        numberToName[numberOfClaimedNames] = _name;
+        numberToName[numberOfClaimedNames] = _name;     //order is important
+        numberOfClaimedNames++;                         //order is important
         domainNames[_name].owner = msg.sender;
         domainNames[_name].name = _name;
         domainNames[_name].offerState = OfferState.NotOffering;
@@ -155,8 +155,8 @@ contract DNS {
         ownsName(_name)
     {
         domainNames[_name].owner = _receiver;
-        ownerNameCount[msg.sender] = ownerNameCount[msg.sender] - 1;
-        ownerNameCount[_receiver] = ownerNameCount[_receiver] + 1;
+        ownerNameCount[msg.sender]--;
+        ownerNameCount[_receiver]++;
         emit OwnershipTransfered(_name, _receiver);
     }
 
@@ -195,6 +195,8 @@ contract DNS {
         checkValue(_name)       //returns any extra funds
     {
         domainNames[_name].offerState = OfferState.NotOffering;
+        ownerNameCount[domainNames[_name].owner]--;
+        ownerNameCount[msg.sender]++;
         domainNames[_name].owner = msg.sender;
     }
 
