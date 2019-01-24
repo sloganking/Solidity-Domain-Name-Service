@@ -15,7 +15,7 @@ contract DNS {
     enum OfferState {NotOffering, PrivateOffering, PublicOffering}
 
     struct DomainName {
-        address owner;
+        address payable owner;
         string name;
         string IPAddress;
         OfferState offerState;
@@ -150,7 +150,7 @@ contract DNS {
         @param _name name of the address you are transfering ownership of
         @param _receiver address you are transfering ownership of name to
     */
-    function transferOwnershipForFree(string memory _name, address _receiver)
+    function transferOwnershipForFree(string memory _name, address payable _receiver)
         public
         ownsName(_name)
     {
@@ -198,6 +198,7 @@ contract DNS {
         domainNames[_name].offerState = OfferState.NotOffering;
         ownerNameCount[domainNames[_name].owner]--;
         ownerNameCount[msg.sender]++;
+        domainNames[_name].owner.transfer(domainNames[_name].offerPrice);   //pays previous owner requested amount
         domainNames[_name].owner = msg.sender;
     }
 
@@ -226,6 +227,7 @@ contract DNS {
         domainNames[_name].offerState = OfferState.NotOffering;
         ownerNameCount[domainNames[_name].owner]--;
         ownerNameCount[msg.sender]++;
+        domainNames[_name].owner.transfer(domainNames[_name].offerPrice);   //pays previous owner requested amount
         domainNames[_name].owner = msg.sender;
     }
 }
