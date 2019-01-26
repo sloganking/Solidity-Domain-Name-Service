@@ -10,7 +10,7 @@ This project runs a smart contract using Solidity which allows users to:
 - Transfer ownership of Domain Names to other users for free
 - Offer ownership of Domain Names for specified price
   - Publicly (transfer ownership to any address in exchange for funds)
-  - Priavatly (transfer ownership to specific address in exchange for funds)
+  - Privately (transfer ownership to specific address in exchange for funds)
 - Accept offers of Domain Names (Payable)
   - Public
   - Private
