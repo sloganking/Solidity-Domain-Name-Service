@@ -85,6 +85,12 @@ To start the front end application, go to the app/ folder
 cd app/
 ```
 
+install all project dependancies. (only needs to be done once)
+
+```Bash
+npm i
+```
+
 and run
 
 ```Bash
