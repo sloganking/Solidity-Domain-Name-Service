@@ -31,6 +31,6 @@ Offers ownership of a name to a specified user for a specified amount of Wei. On
 
 Users can also revoke offers if they decide to before the offer has been fulfilled.
 
-## Get information about what names they own and their current state.
+## Get information about what names users own and their current state.
 
 Getting information about names is currently done via multiple functions. This is because solidity cannot currently return or emit structs.
