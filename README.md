@@ -6,10 +6,13 @@ This project runs a smart contract using Solidity which allows users to:
 - claim Domain Names
 - Set a Domain Name's corresponding IP address
 - Read a Domain Name's corresponding IP address
-- Transfer ownership of Domain Names to other users
-  - For Free
-  - Priavatly (transfer ownership to specific address in exchange for funds)
+- Transfer ownership of Domain Names to other users for free
+- Offer ownership of Domain Names for specified price
   - Publicly (transfer ownership to any address in exchange for funds)
+  - Priavatly (transfer ownership to specific address in exchange for funds)
+- Accept offers
+  - Public
+  - Private
 
 A web page front end allows users to interact with the smart contract (Currently a work in progress)
 
