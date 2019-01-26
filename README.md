@@ -13,6 +13,21 @@ This project runs a smart contract using Solidity which allows users to:
 
 A web page front end allows users to interact with the smart contract (Currently a work in progress)
 
+## Project requirements
+### Completed requirements
+
+- A project README.md that explains your project
+- Your project should be a truffle project
+- Smart Contract code should be commented according to the specs in the documentation
+
+### Incomplete requirments
+
+- Create at least 5 tests for each smart contract
+- A development server to serve the front end interface of the application
+- Finish design_pattern_desicions.md
+- Finish avoiding_common_attacks.md
+- Implement/ use a library or an EthPM package in your project
+
 ## How to set it up
 
 ### Install Truffle
@@ -57,3 +72,17 @@ $ truffle migrate
 ```
 
 This will have compiled and moved our smart contracts to our local development blockchain.
+
+### Run front end application
+
+To start the front end application, go to the app/ folder
+
+```Bash
+$ cd app/
+```
+
+and run
+
+```Bash
+$ npm run dev
+```
