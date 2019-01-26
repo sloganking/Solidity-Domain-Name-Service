@@ -15,6 +15,12 @@ A web page front end allows users to interact with the smart contract (Currently
 
 ## How to set it up
 
+### Install Truffle
+
+```Bash
+npm install -g truffle
+```
+
 ### Install Ganache-cli
 
 Using npm:
@@ -34,4 +40,20 @@ yarn global add ganache-cli
 $ ganache-cli
 ```
 
-This will start a private development blockchain on your machine. It is set up to be connected to through http://localhost:8545
+This will start a private development blockchain on your machine. It is set up to be connected to through 127.0.0.1:8545
+
+### Compile and migrate project smart contracts
+
+In this project's file directory run 
+
+```Bash
+$ truffle compile
+```
+
+and
+
+```Bash
+$ truffle migrate
+```
+
+This will have compiled and moved our smart contracts to our local development blockchain.
