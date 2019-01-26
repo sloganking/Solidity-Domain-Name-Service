@@ -91,7 +91,7 @@ install all project dependancies. (only needs to be done once)
 npm i
 ```
 
-and run
+and run the application
 
 ```Bash
 npm run dev
