@@ -17,7 +17,8 @@ function "setNamesIPAddress" takes a name and an IP address, and set's that name
 
 ## Transferring names to other users
 
-There are three methods of transfering ownership of names
+There are three methods of transfering ownership of names:
+
 ### ForFree
 
 Transfers ownership of a name to a specified address
