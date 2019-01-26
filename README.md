@@ -2,7 +2,7 @@
 
 ## What does this project do?
 
-This project runs a smart contract using Solidity which allows users to:
+This project runs a smart contract made in Solidity which allows users to:
 - claim Domain Names
 - Set a Domain Name's corresponding IP address
 - Read a Domain Name's corresponding IP address
