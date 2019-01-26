@@ -116,7 +116,9 @@ contract DNS {
         emit NamesIPAddressChanged(_name, _address);
     }
 
-    /** @notice Returns list of uints, corresponding to all of msg.sender's owned Names */
+    /** @notice Returns list of uints, corresponding to all of msg.sender's owned Names 
+        @return uint[] An array of IDs who's corresponding names are owned by msg.sender
+    */
     function listNamesOwnedBy()
         external
         view
@@ -136,6 +138,7 @@ contract DNS {
 
     /** @notice returns the name of a corresponding ID
         @param _id uint ID which corresponds to a name
+        @return string The name corresponding to the given ID
     */
     function getNameByID(uint _id)
         external
@@ -173,21 +176,20 @@ contract DNS {
     /** @notice offers ownership of a name to specific address in exchange for specified amount of funds.
         @param _name The Name who's ownership is being offered
         @param _address The address who the name is being offered to
-        @param _eth The amount of Ether required for transfer of ownership
+        @param _wei The amount of Wei required for transfer of ownership
     */
-    function makeNamePrivatlyOffered(string memory _name, address _address, uint _eth) public
+    function makeNamePrivatlyOffered(string memory _name, address _address, uint _wei) public
         isClaimed(_name)
         ownsName(_name)
     {
         domainNames[_name].offerState = OfferState.NotOffering;     //assure no one can buy while contract changes price
-        domainNames[_name].offerPrice = _eth;
+        domainNames[_name].offerPrice = _wei;
         domainNames[_name].offerAddress = _address;
         domainNames[_name].offerState = OfferState.PrivateOffering;
     }
 
     /** @notice Receives required amount for offered name and transfer's ownership of name
         @param _name Name who's ownership is being transfered
-        @dev needs to send funds to seller
     */
     function acceptPrivateOffer(string memory _name) public payable
         offerStateOfNameIs(_name, OfferState.PrivateOffering)   //make sure OfferState of name is PriavateOffering
@@ -204,20 +206,19 @@ contract DNS {
 
     /** @notice Offers name to the public for specified amount of ether
         @param _name The Name who's ownership is being offered
-        @param _eth The amount of Ether required for transfer of ownership
+        @param _wei The amount of Wei required for transfer of ownership
     */
-    function makeNamePubliclyOffered(string memory _name, uint _eth) public
+    function makeNamePubliclyOffered(string memory _name, uint _wei) public
         isClaimed(_name)
         ownsName(_name)
     {
         domainNames[_name].offerState = OfferState.NotOffering;     //assure no one can buy while contract changes price
-        domainNames[_name].offerPrice = _eth;
+        domainNames[_name].offerPrice = _wei;
         domainNames[_name].offerState = OfferState.PublicOffering;
     }
 
     /** @notice receives requested funds for offered name and transferes ownership of name to msg.sender
         @param _name Name who's ownership is being transfered
-        @dev needs to send funds to seller
     */
     function acceptPublicOffer(string memory _name) public payable
         offerStateOfNameIs(_name, OfferState.PublicOffering)   //make sure OfferState of name is PublicOffering
