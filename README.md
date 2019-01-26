@@ -63,7 +63,7 @@ This will start a private development blockchain on your machine. It is set up t
 
 ### Compile and migrate project smart contracts
 
-In this project's file directory run 
+Open a new command line in this project's file directory and run 
 
 ```Bash
 $ truffle compile
