@@ -56,7 +56,7 @@ yarn global add ganache-cli
 ### Run Ganache-cli
 
 ```Bash
-$ ganache-cli
+ganache-cli
 ```
 
 This will start a private development blockchain on your machine. It is set up to be connected to through 127.0.0.1:8545
@@ -66,13 +66,13 @@ This will start a private development blockchain on your machine. It is set up t
 Open a new command line in this project's file directory and run 
 
 ```Bash
-$ truffle compile
+truffle compile
 ```
 
 and
 
 ```Bash
-$ truffle migrate
+truffle migrate
 ```
 
 This will have compiled and moved our smart contracts to our local development blockchain.
@@ -82,11 +82,11 @@ This will have compiled and moved our smart contracts to our local development b
 To start the front end application, go to the app/ folder
 
 ```Bash
-$ cd app/
+cd app/
 ```
 
 and run
 
 ```Bash
-$ npm run dev
+npm run dev
 ```
