@@ -5,7 +5,7 @@ import "truffle/DeployedAddresses.sol";
 import "../contracts/DNS.sol";
 
 contract TestDns {
-    function testClaimNewNameUsingDeployedContract() public {
+    function testClaimNewName() public {
         DNS dns = DNS(DeployedAddresses.DNS());
 
         string memory expected = "consensys.net";
@@ -17,8 +17,8 @@ contract TestDns {
             "The name retrieved by getNameByID() was not the same as the name given to claimNewName"
         );
     }
-    
-    function testSetNamesIPAddressUsingDeployedContract() public {
+
+    function testSetNamesIPAddress() public {
         DNS dns = DNS(DeployedAddresses.DNS());
         string memory expectedIP = "1.1.1.1";
         string memory name = "RandomName";
@@ -31,7 +31,7 @@ contract TestDns {
         );
     }
 
-    function testListNamesOwnedByUsingDeployedContract() public {
+    function testListNamesOwnedBy() public {
         DNS dns = DNS(DeployedAddresses.DNS());
         dns.claimNewName("name0");
         dns.claimNewName("name1");
@@ -44,5 +44,30 @@ contract TestDns {
             "Claimed names with IDs 0-2 but 0-2 was not listed by listNamesOwnedBy()"
             );
         }
+    }
+
+    function testGetNameByID() public {
+        DNS dns = DNS(DeployedAddresses.DNS());
+        string memory name = "name5";
+        dns.claimNewName(name);
+        Assert.equal(
+            name,
+            dns.getNameByID(5),
+            "getNameByID did not match expected name"
+        );
+        name = "name6";
+        dns.claimNewName(name);
+        Assert.equal(
+            name,
+            dns.getNameByID(6),
+            "getNameByID did not match expected name"
+        );
+        name = "name7";
+        dns.claimNewName(name);
+        Assert.equal(
+            name,
+            dns.getNameByID(7),
+            "getNameByID did not match expected name"
+        );
     }
 }
