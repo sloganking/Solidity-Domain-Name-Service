@@ -5,6 +5,7 @@ import "truffle/DeployedAddresses.sol";
 import "../contracts/DNS.sol";
 
 contract TestDns {
+    /** @notice BurnsOwnedTokens before function execution. Uses on tests which rely on having no owned tokens*/
     modifier burnOwnedTokens()
     {
         DNS dns = DNS(DeployedAddresses.DNS());
@@ -15,7 +16,8 @@ contract TestDns {
         _;
     }
 
-    function testListNamesOwnedBy()     //keep as first function
+    /** @notice Tests ListNamesOwnedBy() in DNS.sol */
+    function testListNamesOwnedBy()
         public
         burnOwnedTokens()
     {
@@ -33,6 +35,7 @@ contract TestDns {
         }
     }
 
+    /** @notice Tests getNameByID() in DNS.sol */
     function testGetNameByID()
         public
         burnOwnedTokens()
@@ -59,6 +62,7 @@ contract TestDns {
         );
     }
 
+    /** @notice Tests claimNewName() in DNS.sol */
     function testClaimNewName()
         public
         burnOwnedTokens()
@@ -74,6 +78,7 @@ contract TestDns {
         );
     }
 
+    /** @notice Tests setNamesIPAddress() in DNS.sol */
     function testSetNamesIPAddress()
         public
     {
@@ -89,6 +94,7 @@ contract TestDns {
         );
     }
     
+    /** @notice Tests viewNamesIPAddress() in DNS.sol */
     function testViewNamesIPAddress()
         public
     {
