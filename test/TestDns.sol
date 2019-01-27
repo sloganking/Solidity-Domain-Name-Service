@@ -14,22 +14,43 @@ contract TestDns {
         Assert.equal(
             expected,
             dns.getNameByID(ownedNames[0]),
-            "Claimed name should be owned"
+            "The name retrieved by getNameByID() was not the same as the name given to claimNewName"
         );
     }
     
-    function testsetNamesIPAddressUsingDeployedContract() public {
+    function testSetNamesIPAddressUsingDeployedContract() public {
         DNS dns = DNS(DeployedAddresses.DNS());
-        string memory expected = "1.1.1.1";
-
+        string memory expectedIP = "1.1.1.1";
         string memory name = "RandomName";
         dns.claimNewName(name);
-        dns.setNamesIPAddress(name,expected);
-
+        dns.setNamesIPAddress(name,expectedIP);
         Assert.equal(
-            expected,
+            expectedIP,
             dns.viewNamesIPAddress(name),
             "Could not set and read IP Address of a name"
+        );
+    }
+
+    function testListNamesOwnedByUsingDeployedContract() public {
+        DNS dns = DNS(DeployedAddresses.DNS());
+        dns.claimNewName("name0");
+        dns.claimNewName("name1");
+        dns.claimNewName("name2");
+        uint[] memory listOfOwnedNames = dns.listNamesOwnedBy();
+        Assert.equal(
+            0,
+            listOfOwnedNames[0],
+            "Claimed names with IDs 0-2 but 0-2 was not listed by listNamesOwnedBy()"
+        );
+        Assert.equal(
+            1,
+            listOfOwnedNames[1],
+            "Claimed names with IDs 0-2 but 0-2 was not listed by listNamesOwnedBy()"
+        );
+        Assert.equal(
+            2,
+            listOfOwnedNames[2],
+            "Claimed names with IDs 0-2 but 0-2 was not listed by listNamesOwnedBy()"
         );
     }
 }
