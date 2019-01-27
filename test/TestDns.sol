@@ -30,7 +30,7 @@ contract TestDns {
         );
     }
 
-    function testClaimNewName() public {
+    function testClaimNewName() public {    //leave as second function
         DNS dns = DNS(DeployedAddresses.DNS());
         string memory expected = "consensys.net";
         dns.claimNewName(expected);
