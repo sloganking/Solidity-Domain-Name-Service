@@ -22,11 +22,14 @@ contract TestDns {
         DNS dns = DNS(DeployedAddresses.DNS());
         string memory expected = "1.1.1.1";
 
-        dns.setNamesIPAddress(expected);
+        string memory name = "RandomName";
+        dns.claimNewName(name);
+        dns.setNamesIPAddress(name,expected);
 
-        // Assert.equal(
-        //     expected,
-
-        // );
+        Assert.equal(
+            expected,
+            dns.viewNamesIPAddress(name),
+            "Could not set and read IP Address of a name"
+        );
     }
 }
