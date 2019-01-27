@@ -37,20 +37,12 @@ contract TestDns {
         dns.claimNewName("name1");
         dns.claimNewName("name2");
         uint[] memory listOfOwnedNames = dns.listNamesOwnedBy();
-        Assert.equal(
-            0,
-            listOfOwnedNames[0],
+        for(uint i = 0; i < 3; i++){
+            Assert.equal(
+            i,
+            listOfOwnedNames[i],
             "Claimed names with IDs 0-2 but 0-2 was not listed by listNamesOwnedBy()"
-        );
-        Assert.equal(
-            1,
-            listOfOwnedNames[1],
-            "Claimed names with IDs 0-2 but 0-2 was not listed by listNamesOwnedBy()"
-        );
-        Assert.equal(
-            2,
-            listOfOwnedNames[2],
-            "Claimed names with IDs 0-2 but 0-2 was not listed by listNamesOwnedBy()"
-        );
+            );
+        }
     }
 }
