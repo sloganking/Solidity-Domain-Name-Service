@@ -5,25 +5,28 @@ import "truffle/DeployedAddresses.sol";
 import "../contracts/DNS.sol";
 
 contract TestDns {
-    function claimNewNameUsingDeployedContract() public {
-    //MetaCoin meta = MetaCoin(DeployedAddresses.MetaCoin());
-    DNS dns = DNS(DeployedAddresses.DNS());
+    function testClaimNewNameUsingDeployedContract() public {
+        DNS dns = DNS(DeployedAddresses.DNS());
 
-    string memory expected = "consensys.net";
+        string memory expected = "consensys.net";
+        dns.claimNewName(expected);
+        uint[] memory ownedNames = dns.listNamesOwnedBy();
+        Assert.equal(
+            expected,
+            dns.getNameByID(ownedNames[0]),
+            "Claimed name should be owned"
+        );
+    }
+    
+    function testsetNamesIPAddressUsingDeployedContract() public {
+        DNS dns = DNS(DeployedAddresses.DNS());
+        string memory expected = "1.1.1.1";
 
-    dns.claimNewName(expected);
+        dns.setNamesIPAddress(expected);
 
-    uint test1 = 1;
-    uint test2 = 2;
+        // Assert.equal(
+        //     expected,
 
-    uint[] memory ownedNames = dns.listNamesOwnedBy();
-    Assert.equal(
-        // expected,
-        // dns.getNameByID(ownedNames[0]),
-        test1,
-        test2,
-        "Claimed name should be owned"
-    );
-
+        // );
     }
 }
