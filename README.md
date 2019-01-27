@@ -96,3 +96,7 @@ and run the application
 ```Bash
 npm run dev
 ```
+
+## Notice
+
+Front end application for this project is not yet completed
