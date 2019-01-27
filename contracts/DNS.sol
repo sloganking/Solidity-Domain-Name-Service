@@ -77,7 +77,7 @@ contract DNS {
     }
 
     //
-    // Functions
+    // Constructor
     //
 
     /** @notice Set the owner to the creator of this contract */
@@ -85,6 +85,10 @@ contract DNS {
         owner = msg.sender;
         numberOfClaimedNames = 0;
     }
+
+    //
+    // General Functions
+    //
 
     /** @notice Gives msg.sender ownership of Domain Name if it's unclaimed
         @param _name name of the domain which is attempting to be claimed
@@ -115,6 +119,10 @@ contract DNS {
         domainNames[_name].IPAddress = _address;
         emit NamesIPAddressChanged(_name, _address);
     }
+
+    //
+    // View Functions
+    //
 
     /** @notice Returns IP address of _name
         @param  _name Name who's corresponding IP address is being returned
@@ -161,6 +169,10 @@ contract DNS {
     {
         return numberToName[_id];
     }
+
+    //
+    // Transfer related Functions
+    //
 
     /** @notice lets msg.sender transfer ownership of one of their names to another address
         @param _name name of the address you are transfering ownership of
