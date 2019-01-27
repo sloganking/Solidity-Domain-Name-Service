@@ -116,6 +116,19 @@ contract DNS {
         emit NamesIPAddressChanged(_name, _address);
     }
 
+    /** @notice Returns IP address of _name
+        @param  _name Name who's corresponding IP address is being returned
+        @return string The IP address of the given name
+    */
+    function viewNamesIPAddress(string memory _name)
+        public
+        view
+        isClaimed(_name)
+        returns(string memory)
+    {
+        return domainNames[_name].IPAddress;
+    }
+
     /** @notice Returns list of uints, corresponding to all of msg.sender's owned Names 
         @return uint[] An array of IDs who's corresponding names are owned by msg.sender
     */
