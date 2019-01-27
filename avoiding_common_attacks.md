@@ -1,6 +1,6 @@
 # Avoiding-Common-Attacks
 
-## Avoided attacks
+## Common attacks which measures were taken to prevent
 During the creation of this project, multiple measures were taken to ensure that the project's contracts are not susceptible to common attacks.
 
 ### Reentrancy attacks
