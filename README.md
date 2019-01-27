@@ -99,4 +99,5 @@ npm run dev
 
 ## Notice
 
-Front end application for this project is not yet completed
+- Front end application for this project is not yet completed
+- Contract functionality can be readily tested using https://remix.ethereum.org
