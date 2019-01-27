@@ -1,11 +1,12 @@
 pragma solidity ^0.5.0;
-contract DNS {
+
+import "./Ownable.sol";
+
+contract DNS is Ownable{
 
     //
     // State variables
     //
-
-    address public owner;
 
     mapping (address => uint) ownerNameCount;   //number of names in existance
     mapping (uint => string) numberToName;   //(used to sort through all names)
@@ -82,7 +83,6 @@ contract DNS {
 
     /** @notice Set the owner to the creator of this contract */
     constructor() public {
-        owner = msg.sender;
         numberOfClaimedNames = 0;
     }
 
