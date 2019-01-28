@@ -27,9 +27,6 @@ A web page front end allows users to interact with the smart contract (Currently
 - Create at least 5 tests for each smart contract
 - Finish avoiding_common_attacks.md
 - Implement/ use a library or an EthPM package in your project
-
-### Incomplete requirments
-
 - A development server to serve the front end interface of the application
 
 ## How to set it up
