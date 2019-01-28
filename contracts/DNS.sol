@@ -41,7 +41,7 @@ contract DNS is Ownable{
 
     modifier circuitNotBroken()
     {
-        require(circuitBroken == false);
+        require(circuitBroken == false, "This contract's state has been frozen by the contract owner");
         _;
     }
 
