@@ -21,3 +21,6 @@ Knowing the information in privately declared variables does not give users an u
 - Formatting:
   - Put each modifier on seperate line, increasing the readability of each function.
 
+## Additional security precautions
+
+- Implemented a circuit breaker
