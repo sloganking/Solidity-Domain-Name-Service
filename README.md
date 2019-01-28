@@ -93,7 +93,7 @@ install all project dependancies. (only needs to be done once)
 npm i
 ```
 
-Give index.html (located in app/) our deployed contract's address by opening it and replacing the address [on line 34](https://i.imgur.com/YB7Fp9A.png) with the address of our newly deployed DNS contract given to us earlier by ganache-cli
+Give index.html (located in app/) our deployed contract's address by opening it and replacing the address [on line 51](https://i.imgur.com/YB7Fp9A.png) with the address of our newly deployed DNS contract given to us earlier by ganache-cli
 
 Now manually open index.html and the project's front end application will load into your default browser
 
