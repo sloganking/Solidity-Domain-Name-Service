@@ -97,9 +97,12 @@ Give index.html (located in app/) our deployed contract's address by opening it 
 
 Now manually open index.html and the project's front end application will load into your default browser
 
+For assistance with program evaluateion, please read the notice below.
+
 ## Notice
 
-- Front end application for this project is not fully complete
-- front end successfuly calls contract funtions but claimNewName() currently fails due to web3's default gasLimit.
-- As a workaround, it is possible to deploy the contract's to the local ganache blockchain through remix, and call claimNewNames() using Remix. This will put claimedNames in the contract. One can then call the other functions of this project's front end (index.html) (remember to link contract address) to verify that they successfuly interact with the contract.
+- Front end application for this project does not yet allow users to use all available smart contract functions.
+- Problem: front end successfuly calls contract funtions but claimNewName() currently fails due to web3's default gasLimit.
+- Workaround: it is possible to deploy the contract's to the local ganache blockchain through remix, and call claimNewNames() using Remix. This will put claimedNames in the contract. One can then call the other functions of this project's front end (index.html) (remember to link contract address) to verify that they successfuly interact with the contract.
+- Here is a [video going through the instructions above.](https://streamable.com/v8wj5)
 - Any Contract functions not yet exposed by this project's front end can be readily tested using the environment found at https://remix.ethereum.org
