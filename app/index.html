@@ -11,31 +11,43 @@
 
     <input id="input" type="text">
     <button id="button">Set</button>
-
-    <pre id="output">
-
-    </pre>
+    <p>List of Owned Names:</p>
+    <pre id="output"></pre>
     <script>
-        //var web3 = new Web3(Web3.givenProvider || "http:localhost:8545");
         var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
         web3.eth.defaultAccount = web3.eth.accounts[0];
-        //web3.eth.
 
         var dnsContract = web3.eth.contract([{"constant":false,"inputs":[],"name":"breakCircuit","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"listNamesOwnedBy","outputs":[{"name":"","type":"uint256[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"acceptPrivateOffer","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"},{"name":"_address","type":"string"}],"name":"setNamesIPAddress","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"},{"name":"_address","type":"address"},{"name":"_wei","type":"uint256"}],"name":"makeNamePrivatlyOffered","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"makeNameNotOffered","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_id","type":"uint256"}],"name":"getNameByID","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"},{"name":"_receiver","type":"address"}],"name":"transferOwnershipForFree","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"claimNewName","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"}],"name":"acceptPublicOffer","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"_name","type":"string"}],"name":"viewNamesIPAddress","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"isOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"},{"name":"_wei","type":"uint256"}],"name":"makeNamePubliclyOffered","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"accountAddress","type":"address"},{"indexed":false,"name":"acquiredString","type":"string"}],"name":"NewNameClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"name","type":"string"},{"indexed":false,"name":"IPAddress","type":"string"}],"name":"NamesIPAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"name","type":"string"},{"indexed":false,"name":"newOwner","type":"address"}],"name":"OwnershipTransfered","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previousOwner","type":"address"},{"indexed":true,"name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"}]);
         var dns = dnsContract.at('0x57acaac86ede6ea420dde7c49fc0e84ac1b4d93a');
-        // dns.defaults({
-        //     gasLimit:"6000000"
-        // });
 
+        //link variables to html
         var input = document.getElementById('input');
         var button = document.getElementById('button');
         var output = document.getElementById('output');
 
         button.addEventListener('click', function() {
             dns.claimNewName(input.value);
-
-            output.innerHTML = dns.listNamesOwnedBy();
+            updateListOfOwnedNames();
         });
+
+        //
+        //  functions
+        //
+
+        function updateListOfOwnedNames(){
+            var ownedItems = dns.listNamesOwnedBy();
+            output.innerHTML = "";
+            for(var i = 0; i < ownedItems.length; i++){
+                output.innerHTML += dns.getNameByID(i);
+                output.innerHTML += " ";
+            }
+        }
+
+
+        //
+        // start of main?
+        //
+        updateListOfOwnedNames()
     </script>
 </body>
 </html>
