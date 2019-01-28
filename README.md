@@ -101,4 +101,5 @@ Now manually open index.html and the project's front end application will load i
 
 - Front end application for this project is not fully complete
 - front end successfuly calls contract funtions but claimNewName() currently fails due to web3's default gasLimit.
-- Contract functionality can be readily tested using the environment found at https://remix.ethereum.org
+- As a workaround, it is possible to deploy the contract's to the local ganache blockchain through remix, and call claimNewNames() using Remix. This will put claimedNames in the contract. One can then call the other functions of this project's front end (index.html) (remember to link contract address) to verify that they successfuly interact with the contract.
+- Any Contract functions not yet exposed by this project's front end can be readily tested using the environment found at https://remix.ethereum.org
