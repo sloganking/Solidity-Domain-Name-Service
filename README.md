@@ -77,6 +77,8 @@ truffle migrate
 
 This will have compiled and moved our smart contracts to our local development blockchain.
 
+[Save the address of our deployed DNS contract](https://i.imgur.com/i9WtZ1G.png) as we will need it later.
+
 ### Run front end application
 
 To start the front end application, go to the app/ folder
@@ -91,13 +93,12 @@ install all project dependancies. (only needs to be done once)
 npm i
 ```
 
-and run the application
+Give index.html (located in app/) our deployed contract's address by opening it and replacing the address [on line 34](https://i.imgur.com/YB7Fp9A.png) with the address of our newly deployed DNS contract given to us earlier by ganache-cli
 
-```Bash
-npm run dev
-```
+Now manually open index.html and the project's front end application will load into your default browser
 
 ## Notice
 
-- Front end application for this project is not yet completed
-- Contract functionality can be readily tested using https://remix.ethereum.org
+- Front end application for this project is not fully complete
+- front end successfuly calls contract funtions but claimNewName() currently fails due to web3's default gasLimit.
+- Contract functionality can be readily tested using the environment found at https://remix.ethereum.org
