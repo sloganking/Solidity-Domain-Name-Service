@@ -9,6 +9,9 @@
 </head>
 <body>
 
+    <p>Current Account:</p>
+    <pre id="currentAccount"></pre>
+
     <input id="viewNamesIPAddressinput" type="text">
     <button id="viewNamesIPAddressbutton">view Name's IP Address</button>
     <pre id="viewNamesIPAddressOutput"></pre>
@@ -23,7 +26,7 @@
         //
         //  Set up contract / web3
         //
-        
+
         var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
         web3.eth.defaultAccount = web3.eth.accounts[0];
 
@@ -34,6 +37,11 @@
         //link variables to html
         //
         
+        //current account
+        var currentAccount = document.getElementById('currentAccount');
+        currentAccount.innerHTML = dns._eth.coinbase;
+
+        //ClaimNewName options
         var ClaimNewNameinput = document.getElementById('ClaimNewNameinput');
         var ClaimNewNamebutton = document.getElementById('ClaimNewNamebutton');
         var output = document.getElementById('output');
