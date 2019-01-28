@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-import "./Ownable.sol";
+import "./ownable.sol";
 
 contract DNS is Ownable{
 
@@ -25,6 +25,7 @@ contract DNS is Ownable{
     }
 
     uint numberOfClaimedNames;
+    bool circuitBroken;
 
     //
     // Events - publicize actions to external listeners
@@ -37,6 +38,12 @@ contract DNS is Ownable{
     // 
     // Modifiers
     // 
+
+    modifier circuitNotBroken()
+    {
+        require(circuitBroken == false);
+        _;
+    }
 
     modifier ownsName(string memory _name){
         require(domainNames[_name].owner == msg.sender, "You are not this name's owner");
@@ -84,6 +91,19 @@ contract DNS is Ownable{
     /** @notice Set the owner to the creator of this contract */
     constructor() public {
         numberOfClaimedNames = 0;
+        circuitBroken = false;
+    }
+
+    //
+    // Adminastrative Functions
+    //
+
+    /** @notice activates contract Circuit Breaker which stops most contract functions in case of emergency */
+    function breakCircuit()
+        external
+        onlyOwner()
+    {
+        circuitBroken = true;
     }
 
     //
@@ -95,6 +115,7 @@ contract DNS is Ownable{
      */
     function claimNewName(string memory _name)
         public
+        circuitNotBroken()
         notClaimed(_name)
     {
         claimed[_name] = true;
@@ -113,6 +134,7 @@ contract DNS is Ownable{
      */
     function setNamesIPAddress(string memory _name, string memory _address)
         public
+        circuitNotBroken()
         isClaimed(_name)
         ownsName(_name)
     {
@@ -180,6 +202,7 @@ contract DNS is Ownable{
     */
     function transferOwnershipForFree(string memory _name, address payable _receiver)
         public
+        circuitNotBroken()
         ownsName(_name)
     {
         domainNames[_name].owner = _receiver;
@@ -191,7 +214,9 @@ contract DNS is Ownable{
     /** @notice Sets name to NotOffered for sale
         @param _name Name who's offerStatus is being changed
     */
-    function makeNameNotOffered(string memory _name) public
+    function makeNameNotOffered(string memory _name)
+        public
+        circuitNotBroken()
         isClaimed(_name)
         ownsName(_name)
     {
@@ -203,7 +228,9 @@ contract DNS is Ownable{
         @param _address The address who the name is being offered to
         @param _wei The amount of Wei required for transfer of ownership
     */
-    function makeNamePrivatlyOffered(string memory _name, address _address, uint _wei) public
+    function makeNamePrivatlyOffered(string memory _name, address _address, uint _wei)
+        public
+        circuitNotBroken()
         isClaimed(_name)
         ownsName(_name)
     {
@@ -216,7 +243,10 @@ contract DNS is Ownable{
     /** @notice Receives required amount for offered name and transfer's ownership of name
         @param _name Name who's ownership is being transfered
     */
-    function acceptPrivateOffer(string memory _name) public payable
+    function acceptPrivateOffer(string memory _name)
+        public
+        payable
+        circuitNotBroken()
         offerStateOfNameIs(_name, OfferState.PrivateOffering)   //make sure OfferState of name is PriavateOffering
         validReceiverOf(_name)
         paidEnough(domainNames[_name].offerPrice)
@@ -233,7 +263,9 @@ contract DNS is Ownable{
         @param _name The Name who's ownership is being offered
         @param _wei The amount of Wei required for transfer of ownership
     */
-    function makeNamePubliclyOffered(string memory _name, uint _wei) public
+    function makeNamePubliclyOffered(string memory _name, uint _wei)
+        public
+        circuitNotBroken()
         isClaimed(_name)
         ownsName(_name)
     {
@@ -245,7 +277,10 @@ contract DNS is Ownable{
     /** @notice receives requested funds for offered name and transferes ownership of name to msg.sender
         @param _name Name who's ownership is being transfered
     */
-    function acceptPublicOffer(string memory _name) public payable
+    function acceptPublicOffer(string memory _name)
+        public
+        payable
+        circuitNotBroken()
         offerStateOfNameIs(_name, OfferState.PublicOffering)   //make sure OfferState of name is PublicOffering
         paidEnough(domainNames[_name].offerPrice)
         checkValue(_name)       //returns any extra funds
