@@ -77,7 +77,7 @@ truffle migrate
 
 This will have compiled and moved our smart contracts to our local development blockchain.
 
-[Save the address of our deployed DNS contract](https://i.imgur.com/i9WtZ1G.png) as we will need it later.
+[Save the address of your deployed DNS contract](https://i.imgur.com/i9WtZ1G.png) as you will need it later.
 
 ### Run front end application
 
