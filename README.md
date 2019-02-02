@@ -17,18 +17,6 @@ This project runs a smart contract made in Solidity which allows users to:
 
 A web page front end allows users to interact with the smart contract (Currently a work in progress)
 
-## Project requirements
-### Completed requirements
-
-- A project README.md that explains your project
-- Your project should be a truffle project
-- Smart Contract code should be commented according to the specs in the documentation
-- Finish design_pattern_desicions.md
-- Create at least 5 tests for each smart contract
-- Finish avoiding_common_attacks.md
-- Implement/ use a library or an EthPM package in your project
-- A development server to serve the front end interface of the application
-
 ## How to set it up
 
 ### Install Truffle
