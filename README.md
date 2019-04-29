@@ -82,7 +82,7 @@ Give index.html (located in app/) our deployed contract's address by opening it 
 
 Now manually open index.html and the project's front end application will load into your default browser
 
-For assistance with program evaluateion, please read the notice below.
+For assistance with program evaluation, please read the notice below.
 
 ## Notice
 
